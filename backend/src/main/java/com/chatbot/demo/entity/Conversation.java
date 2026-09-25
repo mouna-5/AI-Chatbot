@@ -1,6 +1,7 @@
 package com.chatbot.demo.entity;
 
 import jakarta.persistence.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,8 +15,16 @@ public class Conversation {
 
     private String title;
 
-    @OneToMany(mappedBy = "conversation", cascade = CascadeType.ALL)
-    private List<Message> messages = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @OneToMany(
+            mappedBy = "conversation",
+            cascade = CascadeType.ALL
+    )
+    private List<Message> messages =
+            new ArrayList<>();
 
     public Conversation() {
     }
@@ -32,11 +41,21 @@ public class Conversation {
         this.title = title;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     public List<Message> getMessages() {
         return messages;
     }
 
-    public void setMessages(List<Message> messages) {
+    public void setMessages(
+            List<Message> messages) {
+
         this.messages = messages;
     }
 }
